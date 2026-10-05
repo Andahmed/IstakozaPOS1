@@ -1,0 +1,44 @@
+خريطة التعديل - Istakoza POS
+============================================================
+
+ملفين بس هما اللي بتعدّل فيهم:
+  server.py          السيرفر + قاعدة البيانات + الـ API + الصلاحيات (بايثون)
+  pos_istakoza.html  الشاشات كلها + الرسيت + التقارير (HTML/CSS/JS في ملف واحد)
+
+في الملفين اكتب في البحث:  [EDIT-MAP]  وهتلاقي لافتة قبل كل جزء مهم.
+
+عايز تغيّر إيه؟                                   الملف                 سطر تقريبي   ابحث عن
+----------------------------------------------------------------------------------------------------
+الألوان والشكل العام                             pos_istakoza.html    10           :root{
+الشريط العلوي (الأزرار الرئيسية)                 pos_istakoza.html    149          <div class="header">
+الإعدادات الافتراضية للبرنامج                    pos_istakoza.html    452          const DEF=
+المنيو الأولي (الأصناف اللي بتتحط أول مرة)       pos_istakoza.html    439          function seed()
+البيع والسلة                                     pos_istakoza.html    538          function addToCart
+الدفع والطباعة                                   pos_istakoza.html    686          async function pay(
+شكل رسيت العميل (الإجمالي بس + رقم الأوردر)      pos_istakoza.html    578          const TPL_C=
+شكل رسيت المطبخ (رقم الأوردر + الأصناف)          pos_istakoza.html    598          const TPL_K=
+شجرة المنيو: جروبات وأصناف وزرار الريسبي         pos_istakoza.html    943          function renderSettings
+محرر الريسبي (➕ إضافة خامة، كمية، كجم/جرام)      pos_istakoza.html    1318         function rcRender
+تابات المخازن/الأوردرات (إضافة أو شيل تاب)       pos_istakoza.html    1085         const TABS=
+تابات الإعدادات                                  pos_istakoza.html    1264         const SET_TABS
+حقول الإعدادات العامة                            pos_istakoza.html    910          const CF=
+الصلاحيات (قايمة الـ checkboxes)                 pos_istakoza.html    919          ['disc','الخصم']
+قفل اليوم                                        pos_istakoza.html    734          async function closeDay
+التقارير                                         pos_istakoza.html    1389         function renderReport
+رقم إصدار السيرفر                                server.py            17           VERSION = 
+جداول قاعدة البيانات                             server.py            83           T = {
+أسعار الأسماك التقديرية                          server.py            577          FISH_RULES =
+الخامات الأساسية وأسعارها                        server.py            581          STAPLES =
+حفظ الفاتورة (الوقت من السيرفر + خصم الخامات)    server.py            267          def add_sale
+حفظ الأصناف/الأسعار (فحص الصلاحيات)              server.py            233          def save_state
+الريسبي وحساب التكلفة                            server.py            717          def unit_cost
+المرتجع                                          server.py            492          def do_return(
+جرد الشهر                                        server.py            772          def stocktake_get
+تقارير المخزن والأرباح                           server.py            862          def report_stock
+النسخ الاحتياطي                                  server.py            1010         def make_backup
+كل مسارات الـ API                                server.py            1079         class H(
+
+ملحوظات:
+- أسعار الأسماك والخامات تقديرية (أسواق مصر أكتوبر 2026) ومتعدّلة من المخازن > الموردين والأكواد، أو من FISH_RULES / STAPLES في server.py (بتتطبق مرة واحدة على قاعدة جديدة).
+- بعد تعديل server.py لازم تعمل build من جديد (build.bat). تعديل pos_istakoza.html لوحده: انسخه مكان القديم في فولدر التسطيب.
+- لو غيّرت VERSION في server.py غيّر معاه pos-ui-version في أول pos_istakoza.html.
