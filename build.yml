@@ -1,0 +1,36 @@
+name: Build POS App
+
+on:
+  push:
+    branches: [ "main" ] # يشتغل أوتوماتيك لما ترفع كود على الفرع الرئيسي
+  workflow_dispatch: # يسمح لك تشغله يدوياً من صفحة المستودع
+
+jobs:
+  build:
+    runs-on: windows-latest # مهم جداً لأن مشروعك بيعتمد على ويندوز
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10' # غير الرقم ده لو مشروعك محتاج نسخة معينة
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flask pyinstaller # ضيف أي مكتبات تانية هنا
+        
+    - name: Install NSIS
+      run: choco install nsis -y # تثبيت برنامج NSIS على السيرفر عشان يبني ملف الـ setup
+
+    - name: Run Build Script
+      run: .\build.bat # بيشغل ملف البناء بتاعك
+
+    - name: Upload Installer
+      uses: actions/upload-artifact@v4
+      with:
+        name: POS-Installer
+        path: "*.exe" # هياخد أي ملف exe طلع من البناء ويرفعه
